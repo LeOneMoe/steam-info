@@ -1,30 +1,23 @@
 import requests
 from keys import steamKey
 
-STEAM_API_KEY = steamKey
 
+STEAM_API_KEY = steamKey
 url = "http://api.steampowered.com/"
 
 
-def getInfo(steamid, method_):
-
-    
-
-    payload = {"key": STEAM_API_KEY, "steamid": steamid, "format": "json", "include_appinfo": "1", "include_played_free_games": "1"}
-    
+def getInfo(steamid, method_, payload):    
     res_json = requests.get(url + method_, params=payload)
 
     return res_json
 
 
-def MostPlayedGames(steamid):
-
+def MostPlayedGames(steamid, free):
     method_ = "IPlayerService/GetOwnedGames/v0001/"
+    payload = {"key": STEAM_API_KEY, "steamid": steamid, "include_appinfo": "1", "include_played_free_games": free, "format": "json"}
     
-    res_dict = getInfo(steamid, method_).json()
-
+    res_dict = getInfo(steamid, method_, payload).json()
     res_raw = []
-
     res = ""
 
     for i in res_dict["response"]["games"]:

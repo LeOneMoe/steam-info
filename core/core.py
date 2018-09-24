@@ -11,13 +11,18 @@ TOKEN = discordKey
 client = Bot(command_prefix=BOT_PREFIX)
 
 @client.command(name="mostplayedgames",
-                description="Shows user top 10 most played games (need steam_id)",
+                description="!command steamid add_free_games-optional\n\
+                        Example: !games 76561198115601378 1",
+                brief="Shows user top 10 most played games",
                 aliases=["MostPlayedGames", "PlayedGames", "games"])
-async def MostPlayedGames(steamid):
+async def MostPlayedGames(steamid=None, free=0):
+    if steamid == None:
+        await client.say("You did`n specify steamid")
+        return 
+    
+    res = steamMethods.MostPlayedGames(steamid, free)
 
-    res = steamMethods.MostPlayedGames(steamid)
-
-    await client.say(res)
+    await client.say(res)   
 
 
 @client.event
