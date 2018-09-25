@@ -30,3 +30,17 @@ def MostPlayedGames(steamid, free):
         res += "%i) %s: %i hours\n" % (i + 1, res_raw[i][0], res_raw[i][1])
 
     return res
+
+
+def GetPlayerBans(steamid):
+    method_ = "ISteamUser/GetPlayerBans/v1/"
+    payload = {"key": STEAM_API_KEY, "steamids": steamid}
+
+    res_dict = getInfo(steamid, method_, payload).json()
+    res_raw = []
+    res = "Bans info:\n"
+
+    for i in res_dict["players"][0].keys():
+        res += "%s: %s\n" % (i, str(res_dict["players"][0].get(i)))
+
+    return res
