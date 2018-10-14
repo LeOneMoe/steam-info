@@ -1,10 +1,7 @@
-import re
-import random
 import asyncio
 import steamMethods
 from discord.ext.commands import Bot
 from keys import discordKey
-
 from datetime import datetime
 
 
@@ -16,30 +13,6 @@ TOKEN = discordKey
 
 client = Bot(command_prefix=BOT_PREFIX)
 
-
-# idk
-
-def identityFormat(identity):
-    
-    if identity == None:
-        return None
-    
-    elif re.match(r"https://steamcommunity\.com/id/[^/]+", identity) != None:
-        return identity
-
-    elif re.match(r"https://steamcommunity\.com/profiles/\d+", identity) != None:
-        return identity
-
-    elif re.match(r"\d+", identity) != None:
-        return "https://steamcommunity.com/profiles/" + identity
-
-    elif re.match(r"\w+", identity) != None:
-        return "https://steamcommunity.com/id/" + identity
-
-    else:
-        return None
-
-
 # Commands
 
 @client.command(name="mostplayedgames",
@@ -48,16 +21,14 @@ def identityFormat(identity):
                 brief="Shows user top 10 most played games",
                 aliases=["MostPlayedGames", "PlayedGames", "games"],
                 pass_context=True)
-async def MostPlayedGames(context, identity=None, free=0):
-    print("%s: !MostPlayedGames %s %i" % (context.message.author, identity, free))
+async def mostPlayedGames(context, identifier=None, free=0):
+    print("%s: !MostPlayedGames %s %i" % (context.message.author, identifier, free))
 
-    identity = identityFormat(identity)
-
-    if identity == None:
-        await client.say("Invalind or on profileUrl/id")
+    if identifier == None:
+        await client.say("No profileUrl/id")
         return 
     
-    res = steamMethods.MostPlayedGames(identity, free)
+    res = steamMethods.mostPlayedGames(identifier, free)
 
     await client.say(context.message.author.mention + "\n" + res)   
 
@@ -68,16 +39,14 @@ async def MostPlayedGames(context, identity=None, free=0):
                 brief="Shows user bans info",
                 aliases=["GetPlayerBans", "PlayedBans", "bans"],
                 pass_context=True)
-async def GetPlayerBans(context, identity=None):
-    print("%s: !GetPlayerBans %s" % (context.message.author, identity))
+async def getPlayerBans(context, identifier=None):
+    print("%s: !GetPlayerBans %s" % (context.message.author, identifier))
 
-    identity = identityFormat(identity)
-
-    if identity == None:
-        await client.say("Invalind or on profileUrl/id")
+    if identifier == None:
+        await client.say("No profileUrl/id")
         return 
 
-    res = steamMethods.GetPlayerBans(identity) 
+    res = steamMethods.getPlayerBans(identifier) 
     
     await client.say(context.message.author.mention + "\n" + res)
 
@@ -117,7 +86,7 @@ async def upTime():
         
         print("Current up time: {0}".format(datetime.now() - start_time), end="\r")
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(60)
 
 
 client.loop.create_task(listServers())
