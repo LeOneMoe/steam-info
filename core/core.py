@@ -22,7 +22,8 @@ client = Bot(command_prefix=BOT_PREFIX)
                 aliases=["MostPlayedGames", "PlayedGames", "games"],
                 pass_context=True)
 async def mostPlayedGames(context, identifier=None, free=0):
-    print("%s: !MostPlayedGames %s %i" % (context.message.author, identifier, free))
+    print("%s: !MostPlayedGames %s %i" % (context.message.author,
+     identifier, free))
 
     if identifier == None:
         await client.say("No profileUrl/id")
@@ -84,7 +85,8 @@ async def upTime():
 
     while not client.is_closed:
         
-        print("Current up time: {0}".format(datetime.now() - start_time), end="\r")
+        print("Current up time: {0}".format(datetime.now() - start_time),
+         end="\r")
 
         await asyncio.sleep(60)
 

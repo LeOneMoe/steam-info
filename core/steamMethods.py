@@ -11,10 +11,12 @@ def idMapping(identifier):
     if identifier == None:
         return None
     
-    elif re.match(r"https://steamcommunity\.com/id/[^/]+/", identifier) != None:
+    elif re.match(r"https://steamcommunity\.com/id/[^/]+/",
+         identifier) != None:
         return SteamID.from_url(identifier)
 
-    elif re.match(r"https://steamcommunity\.com/profiles/[^/]+/", identifier) != None:
+    elif re.match(r"https://steamcommunity\.com/profiles/[^/]+/",
+         identifier) != None:
         return SteamID(identifier[36:-1])
     
     elif re.match(r"\d+", identifier) != None:
@@ -26,22 +28,6 @@ def idMapping(identifier):
     else:
         return None
 
-    """
-    elif re.match(r"https://steamcommunity\.com/id/[^/]+", identity) != None:
-        return identity
-
-    elif re.match(r"https://steamcommunity\.com/profiles/\d+", identity) != None:
-        return identity
-
-    elif re.match(r"\d+", identity) != None:
-        return "https://steamcommunity.com/profiles/" + identity
-
-    elif re.match(r"\w+", identity) != None:
-        return "https://steamcommunity.com/id/" + identity
-
-    else:
-        return None
-    """
 
 def mostPlayedGames(identifier, free):
     steamid = idMapping(identifier)
@@ -49,7 +35,9 @@ def mostPlayedGames(identifier, free):
     if steamid == None:
         return "Invalid identifier"
 
-    res_dict = STEAM_API_KEY.IPlayerService.GetOwnedGames(steamid=steamid, include_appinfo=1, include_played_free_games=free, appids_filter=0)
+    res_dict = STEAM_API_KEY.IPlayerService.GetOwnedGames(steamid=steamid,
+     include_appinfo=1, include_played_free_games=free, appids_filter=0)
+    
     res_raw = []
     res = ""
     
@@ -72,7 +60,6 @@ def getPlayerBans(identifier):
         return "Invalid identifier"
 
     res_dict = STEAM_API_KEY.ISteamUser.GetPlayerBans(steamids=steamid)
-    res_raw = []
     res = "Bans info:\n"
 
     for i in res_dict["players"][0].keys():
