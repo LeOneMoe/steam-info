@@ -44,7 +44,7 @@ async def getPlayerBans(context, identifier=None):
     print("%s: !GetPlayerBans %s" % (context.message.author, identifier))
 
     if identifier == None:
-        await client.say("No profileUrl/id")
+        await client.say("No profile Url/id")
         return 
 
     res = steamMethods.getPlayerBans(identifier) 

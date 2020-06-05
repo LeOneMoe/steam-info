@@ -36,7 +36,7 @@ def mostPlayedGames(identifier, free):
         return "Invalid identifier"
 
     res_dict = STEAM_API_KEY.IPlayerService.GetOwnedGames(steamid=steamid,
-     include_appinfo=1, include_played_free_games=free, appids_filter=0)
+     include_appinfo=1, include_played_free_games=free, include_free_sub=free, appids_filter=0)
     
     res_raw = []
     res = ""
